@@ -13,6 +13,7 @@ export class CerebrosComponent implements OnInit {
     static descripcion: string;
     static iq: string;
     static imagen: string;
+    static trigger: number;
 
     constructor(private _dataService: DataService) { }
 
@@ -39,8 +40,7 @@ export class CerebrosComponent implements OnInit {
         CerebrosComponent.descripcion = JSON.stringify(cerebro.description);
         CerebrosComponent.iq = JSON.stringify(cerebro.iq);
         CerebrosComponent.imagen = JSON.stringify(cerebro.picture);
-
-        console.log(CerebrosComponent.id);
+        CerebrosComponent.trigger = 1;
     }
 
     eliminarCerebros(ID) {

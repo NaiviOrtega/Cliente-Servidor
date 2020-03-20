@@ -9,8 +9,9 @@ import { CerebrosComponent } from 'src/app/cerebros/cerebros.component';
   encapsulation: ViewEncapsulation.None
 })
 export class CerebrosmodalsComponent implements OnInit {
-    @ViewChild('modal') public modal: ElementRef;
+    @ViewChild('modalC') public modalC: ElementRef;
     @ViewChild('error') public error2: ElementRef;
+    @ViewChild('modalE') public modalE: ElementRef;
 
     sabor: string;
     descripcion: string;
@@ -20,17 +21,31 @@ export class CerebrosmodalsComponent implements OnInit {
 
     saborE: string;
     descripcionE: string;
-    iqE: string;
+    iqE: number;
     imagenE: string;
     IDE: string;
 
     cerebros: any;
     error: string;
+    trigger: string;
 
     constructor( private dataService: DataService, private _renderer: Renderer2) { }
 
     ngOnInit(): void {
     }
+
+    ngAfterContentChecked(): void {
+        this.trigger = String(CerebrosComponent.trigger);
+        console.log(this.trigger);
+        if (this.trigger === "1") {
+            this.IDE = CerebrosComponent.id.replace(/["]+/g, '');
+            this.saborE = CerebrosComponent.sabor.replace(/["]+/g, '');
+            this.descripcionE = CerebrosComponent.descripcion.replace(/["]+/g, '');
+            this.iqE = Number(CerebrosComponent.iq);
+            this.imagenE = CerebrosComponent.imagen.replace(/["]+/g, '');
+            CerebrosComponent.trigger = 0;
+        }
+      }
 
     actualizarTabla() {
         this.dataService.cerebrosObservable
@@ -48,13 +63,13 @@ export class CerebrosmodalsComponent implements OnInit {
         this.dataService.agregarCerebro(this.sabor, this.descripcion, this.iq, this.imagen)
         .subscribe((resultado) => {
         console.log(resultado);
-        this._renderer.selectRootElement(this.modal.nativeElement, true).click();
+        this._renderer.selectRootElement(this.modalC.nativeElement, true).click();
         this.dataService.obtenerCerebros();
+        this.ID = '';
         this.sabor = '';
         this.descripcion = '';
         this.iq = 0;
         this.imagen = '';
-        localStorage.removeItem('_id');
         }, (error) => {
             console.log(error);
             if (error.error.mensajeError != 0) {
@@ -68,22 +83,36 @@ export class CerebrosmodalsComponent implements OnInit {
                 });
             }
         });
-    }
-
-    actualizarCerebros(ID) {
-        console.log(ID);
-        this.dataService.actualizarCerebro(ID)
-        .subscribe((resultado: any) => console.log(resultado));
         this.actualizarTabla();
     }
 
-    obtenerValor() {
-        this.saborE = CerebrosComponent.sabor;
-        this.descripcionE = CerebrosComponent.descripcion;
-        this.iqE = CerebrosComponent.iq;
-        this.imagenE = CerebrosComponent.imagen;
-        this.IDE = CerebrosComponent.id;
-        console.log(this.IDE);
+    actualizarCerebro() {
+        let al = document.getElementById('mensajeActualizar');
+        al.innerHTML = '';
+        console.log(this.IDE, this.saborE, this.descripcionE, this.iqE, this.imagenE);
+        this.dataService.actualizarCerebro(this.IDE, this.saborE, this.descripcionE, this.iqE, this.imagenE)
+        .subscribe((resultado) => {
+        console.log(resultado);
+        this._renderer.selectRootElement(this.modalE.nativeElement, true).click();
+        this.dataService.obtenerCerebros();
+        CerebrosComponent.id = '0';
+        CerebrosComponent.sabor = '';
+        CerebrosComponent.descripcion = '';
+        CerebrosComponent.iq = '';
+        CerebrosComponent.imagen = '';
+        }, (error) => {
+            console.log(error);
+            if (error.error.mensajeErrorC != 0) {
+                (error.error.mensajeErrorC).forEach(function(mensajeErrorC) {
+                al.innerHTML = al.innerHTML + "<div class='alert alert-danger alert-dismissible fade show' role='alert'>"+
+                "<strong>" + mensajeErrorC.mensajeC +"</strong>" +
+                "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>"+
+                    "<span aria-hidden='true'>&times;</span>"+
+                "</button>"+
+                "</div>";
+                });
+            }
+        });
     }
 
 }

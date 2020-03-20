@@ -68,12 +68,7 @@ export class DataService {
         return this._client.delete(`${apiUrl}cerebros/delete/${numero}`);
     }
 
-    actualizarCerebro(numero: string) {
-        let sabor: string;
-        let descripcion: string;
-        let IQ: number;
-        let imagen: string;
-
+    actualizarCerebro(numero: string, sabor: string, descripcion: string, IQ: number, imagen: string) {
         let editarCerebro = {
             flavor: sabor,
             description: descripcion,
@@ -81,7 +76,7 @@ export class DataService {
             picture: imagen
         };
 
-        return this._client.put(`${apiUrl}cerebros/edit/${numero}`, editarCerebro);
+        return this._client.put(apiUrl + 'cerebros/edit/' + numero, editarCerebro);
 
     }
 
