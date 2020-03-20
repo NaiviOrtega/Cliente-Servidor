@@ -105,15 +105,16 @@ router.put('/cerebros/edit/:id', async function(req, res){
         await cerebro.save(function(error){
             if(error){
                 var mensajeC = error.message;
-                res.status(500).json({mensajeError: mensajeC});
+                res.status(500).json({ cerebro: cerebro, mensajeErrorC: mensajeC});
             }
             else {
-                res.status(200).json({mensajeError:'', mensajeExito: 'Acción exitosa!'});
+                var mes = 'Zombie guardado con exito';
+                res.status(200).json({mensajeExito: mes});
             }
         });
 
     } catch (e) {
-        res.status(500).json({mensajeError: e});
+        res.status(500).json({mensajeErrorC: e});
     }
 });
 
