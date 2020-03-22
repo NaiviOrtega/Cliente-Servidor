@@ -9,9 +9,9 @@ import { CerebrosComponent } from 'src/app/cerebros/cerebros.component';
   encapsulation: ViewEncapsulation.None
 })
 export class CerebrosmodalsComponent implements OnInit {
-    @ViewChild('modalC') public modalC: ElementRef;
+    @ViewChild('modalG') public modalG: ElementRef;
+    @ViewChild('modalA') public modalA: ElementRef;
     @ViewChild('error') public error2: ElementRef;
-    @ViewChild('modalE') public modalE: ElementRef;
 
     sabor: string;
     descripcion: string;
@@ -63,7 +63,7 @@ export class CerebrosmodalsComponent implements OnInit {
         this.dataService.agregarCerebro(this.sabor, this.descripcion, this.iq, this.imagen)
         .subscribe((resultado) => {
         console.log(resultado);
-        this._renderer.selectRootElement(this.modalC.nativeElement, true).click();
+        this._renderer.selectRootElement(this.modalG.nativeElement, true).click();
         this.dataService.obtenerCerebros();
         this.ID = '';
         this.sabor = '';
@@ -72,47 +72,39 @@ export class CerebrosmodalsComponent implements OnInit {
         this.imagen = '';
         }, (error) => {
             console.log(error);
-            if (error.error.mensajeError != 0) {
-                (error.error.mensajeError).forEach(function(mensajeError) {
-                al.innerHTML = al.innerHTML + "<div class='alert alert-danger alert-dismissible fade show' role='alert'>"+
-                "<strong>" + mensajeError.mensaje +"</strong>" +
+            al.innerHTML = al.innerHTML + "<div class='alert alert-danger alert-dismissible fade show' role='alert'>"+
+                "<strong>" + error.error.mensajeError +"</strong>" +
                 "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>"+
                     "<span aria-hidden='true'>&times;</span>"+
                 "</button>"+
                 "</div>";
-                });
-            }
         });
         this.actualizarTabla();
     }
 
     actualizarCerebro() {
-        let al = document.getElementById('mensajeActualizar');
+        let al = document.getElementById('alertaActualizar');
         al.innerHTML = '';
         console.log(this.IDE, this.saborE, this.descripcionE, this.iqE, this.imagenE);
         this.dataService.actualizarCerebro(this.IDE, this.saborE, this.descripcionE, this.iqE, this.imagenE)
         .subscribe((resultado) => {
         console.log(resultado);
-        this._renderer.selectRootElement(this.modalE.nativeElement, true).click();
+        this._renderer.selectRootElement(this.modalA.nativeElement, true).click();
         this.dataService.obtenerCerebros();
         CerebrosComponent.id = '0';
         CerebrosComponent.sabor = '';
         CerebrosComponent.descripcion = '';
         CerebrosComponent.iq = '';
         CerebrosComponent.imagen = '';
-        }, (error) => {
-            console.log(error);
-            if (error.error.mensajeErrorC != 0) {
-                (error.error.mensajeErrorC).forEach(function(mensajeErrorC) {
-                al.innerHTML = al.innerHTML + "<div class='alert alert-danger alert-dismissible fade show' role='alert'>"+
-                "<strong>" + mensajeErrorC.mensajeC +"</strong>" +
-                "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>"+
-                    "<span aria-hidden='true'>&times;</span>"+
-                "</button>"+
-                "</div>";
-                });
-            }
-        });
+    }, (error) => {
+        console.log(error);
+        al.innerHTML = al.innerHTML + "<div class='alert alert-danger alert-dismissible fade show' role='alert'>"+
+            "<strong>" + error.error.mensajeErrorC +"</strong>" +
+            "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>"+
+                "<span aria-hidden='true'>&times;</span>"+
+            "</button>"+
+            "</div>";
+    });
     }
 
 }
