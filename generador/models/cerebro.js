@@ -4,22 +4,26 @@ var modelSchema = mongoose.Schema({
     flavor: {
         type: String,
         minlength: [5, "El nombre del sabor es muy corto"],
-        maxlength: [12, "El nombre del sabor es muy largo"]
+        maxlength: [12, "El nombre del sabor es muy largo"],
+        required: [true, "El nombre del sabor es obligatorio"]
     },
     description: {
         type: String,
         minlength: [12, "La descripcion es muy corta"],
-        maxlength: [40, "El nombre es muy larga"]
+        maxlength: [40, "La descripcion es muy larga"],
+        required: [true, "La descripción es obligatoria"]
     },
     iq: {
         type: Number,
-        minlength: [1, "El iq es muy corto"],
-        maxlength: [3, "El iq es muy largo"]
+        min: [1, "El iq minimo es de 1"],
+        max: [201, "El iq máximo es de 201"],
+        required: [true, "El iq es obligatorio"]
     },
     picture: {
         type: String,
-        minlength: [6, "El nombre es muy corto"],
-        maxlength: [24, "El nombre es muy largo"]
+        minlength: [6, "El nombre de la imagen es muy corto"],
+        maxlength: [24, "El nombre de la imagen es muy largo"],
+        required: [true, "El nombre de la imagen es obligatorio"]
     }
 });
 

@@ -4,7 +4,8 @@ var modelSchema = mongoose.Schema({
     name: {
         type: String,
         minlength: [12, "La descripcion es muy corta"],
-        maxlength: [40, "El nombre es muy larga"]
+        maxlength: [40, "El nombre es muy larga"],
+        required: [true, "El nombre es obligatorio"]
     },
     email: {
         type: String,
@@ -13,7 +14,8 @@ var modelSchema = mongoose.Schema({
     password: {
         type: String,
         minlength: [6, "La contraseña es muy corta"],
-        maxlength: [24, "La contraseña es muy larga"]
+        maxlength: [24, "La contraseña es muy larga"],
+        required: [true, "La contraseña es obligatoria"]
     }
 });
 

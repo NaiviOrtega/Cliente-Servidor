@@ -5,6 +5,8 @@ var Zombie = require('../models/zombie');
 var Cerebro = require('../models/cerebro');
 var Usuario = require('../models/usuario');
 
+//ZOMBIES
+
 router.get('/zombies', async(req, res) => {
     Zombie.find().exec((error, zombies) => {
         if(!error){
@@ -26,14 +28,18 @@ router.post('/zombies/new', function(req, res){
     });
     nuevoZombie.save(function(error){
         if(error){
-            if(error.error.name){
-                json.push({"mensaje": error.error.name.message});
+            if(error.errors.name){
+                res.status(500).json({mensajeError: error.errors.name.message, mensajeExito: ''});
             }
-            var mensaje = error.message;
-            res.status(500).json({mensajeError: mensaje, mensajeExito: ''});
+            if(error.errors.email){
+                res.status(500).json({mensajeError: error.errors.email.message, mensajeExito: ''});
+            }
+            if(error.errors.type){
+                res.status(500).json({mensajeError: error.errors.type.message, mensajeExito: ''});
+            }
         }
         else {
-            res.status(200).json({mensajeError:'', mensajeExito: 'Se agregó un nuevo zombie correctamente!'});
+            res.status(200).json({mensajeError:'', mensajeExito: 'Se agregó un nuevo cerebro!'});
         }
     });
 });
@@ -48,6 +54,8 @@ router.delete('/zombies/delete/:id', async function(req, res){
         res.status(500).json({mensajeError: e});
     }
 });
+
+//CEREBROS
 
 router.get('/cerebros', async(req, res) => {
     Cerebro.find().exec((error, cerebros) => {
@@ -71,14 +79,21 @@ router.post('/cerebros/new', function(req, res){
     });
     nuevoCerebro.save(function(error){
         if(error){
-            if(error.errors.name){
-                json.push({"mensaje": error.error.name.message});
+            if(error.errors.flavor){
+                res.status(500).json({mensajeErrorC: error.errors.flavor.message, mensajeExitoC: ''});
             }
-            var mensaje = error.message;
-            res.status(500).json({mensajeError: mensaje, mensajeExito: ''});
+            if(error.errors.description){
+                res.status(500).json({mensajeErrorC: error.errors.description.message, mensajeExitoC: ''});
+            }
+            if(error.errors.iq){
+                res.status(500).json({mensajeErrorC: error.errors.iq.message, mensajeExitoC: ''});
+            }
+            if(error.errors.picture){
+                res.status(500).json({mensajeErrorC: error.errors.picture.message, mensajeExitoC: ''});
+            }
         }
         else {
-            res.status(200).json({mensajeError:'', mensajeExito: 'Se agregó un nuevo cerebro!'});
+            res.status(200).json({mensajeErrorC:'', mensajeExitoC: 'Se agregó un nuevo cerebro!'});
         }
     });
 });
@@ -104,12 +119,21 @@ router.put('/cerebros/edit/:id', async function(req, res){
 
         await cerebro.save(function(error){
             if(error){
-                var mensajeC = error.message;
-                res.status(500).json({ cerebro: cerebro, mensajeErrorC: mensajeC});
+                if(error.errors.flavor){
+                    res.status(500).json({mensajeErrorC: error.errors.flavor.message, mensajeExitoC: ''});
+                }
+                if(error.errors.description){
+                    res.status(500).json({mensajeErrorC: error.errors.description.message, mensajeExitoC: ''});
+                }
+                if(error.errors.iq){
+                    res.status(500).json({mensajeErrorC: error.errors.iq.message, mensajeExitoC: ''});
+                }
+                if(error.errors.picture){
+                    res.status(500).json({mensajeErrorC: error.errors.picture.message, mensajeExitoC: ''});
+                }
             }
             else {
-                var mes = 'Zombie guardado con exito';
-                res.status(200).json({mensajeExito: mes});
+                res.status(200).json({mensajeErrorC:'', mensajeExitoC: 'Se agregó un nuevo cerebro!'});
             }
         });
 
@@ -117,6 +141,8 @@ router.put('/cerebros/edit/:id', async function(req, res){
         res.status(500).json({mensajeErrorC: e});
     }
 });
+
+//USUARIOS
 
 router.get('/users', async(req, res) => {
     Usuario.find().exec((error, usuarios) => {

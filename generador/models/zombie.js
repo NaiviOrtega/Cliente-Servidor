@@ -4,7 +4,8 @@ var modelSchema = mongoose.Schema({
     name: {
         type: String,
         minlength: [5, "El nombre es muy corto"],
-        maxlength: [12, "El nombre es muy largo"]
+        maxlength: [12, "El nombre es muy largo"],
+        required: [true, "El nombre es obligatorio"]
     },
     email: {
         type: String,
@@ -12,7 +13,8 @@ var modelSchema = mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["Alumno Zombie", "Maestro Zombie"]
+        enum: ["Alumno Zombie", "Maestro Zombie"],
+        required: [true, "El tipo de zombie es obligatorio"]
     }
 });
 
