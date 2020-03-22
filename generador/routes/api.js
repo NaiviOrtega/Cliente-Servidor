@@ -55,6 +55,35 @@ router.delete('/zombies/delete/:id', async function(req, res){
     }
 });
 
+router.put('/zombies/edit/:id', async function(req, res){
+    try {
+        var zombie = await Zombie.findById(req.params.id);
+        zombie.name = req.body.name;
+        zombie.email = req.body.email;
+        zombie.type = req.body.type;
+        
+        await zombie.save(function(error){
+            if(error){
+                if(error.errors.name){
+                    res.status(500).json({mensajeError: error.errors.name.message, mensajeExito: ''});
+                }
+                if(error.errors.email){
+                    res.status(500).json({mensajeError: error.errors.email.message, mensajeExito: ''});
+                }
+                if(error.errors.type){
+                    res.status(500).json({mensajeError: error.errors.type.message, mensajeExito: ''});
+                }
+            }
+            else {
+                res.status(200).json({mensajeError:'', mensajeExito: 'Se agregó un nuevo zombie!'});
+            }
+        });
+        
+    } catch (e) {
+        res.status(500).json({mensajeError: e});
+    }
+});
+
 //CEREBROS
 
 router.get('/cerebros', async(req, res) => {
