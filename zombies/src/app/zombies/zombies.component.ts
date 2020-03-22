@@ -8,6 +8,11 @@ import { DataService } from '../services/data.service';
 })
 export class ZombiesComponent implements OnInit {
     zombies: any;
+    static id: string;
+    static nombre: string;
+    static correo: string;
+    static tipo: string;
+    static trigger: number;
 
     constructor(private _dataService: DataService) { }
 
@@ -24,6 +29,16 @@ export class ZombiesComponent implements OnInit {
 
       this._dataService.obtenerZombies();
     }
+
+    obtenerZombie(zombie) {
+      console.log(zombie);
+
+      ZombiesComponent.id = JSON.stringify(zombie._id);
+      ZombiesComponent.nombre = JSON.stringify(zombie.name);
+      ZombiesComponent.correo = JSON.stringify(zombie.email);
+      ZombiesComponent.tipo = JSON.stringify(zombie.type);
+      ZombiesComponent.trigger = 1;
+  }
 
     eliminarZombies(ID) {
       console.log(ID);

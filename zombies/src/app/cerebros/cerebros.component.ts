@@ -33,7 +33,6 @@ export class CerebrosComponent implements OnInit {
 
     obtenerCerebro(cerebro) {
         console.log(cerebro);
-        this._dataService.obtenerCerebro(cerebro);
 
         CerebrosComponent.id = JSON.stringify(cerebro._id);
         CerebrosComponent.sabor = JSON.stringify(cerebro.flavor);
