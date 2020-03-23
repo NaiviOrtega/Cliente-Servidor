@@ -8,7 +8,7 @@ import { CerebrosComponent } from './cerebros/cerebros.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    { path: '', redirectTo: 'register', pathMatch: 'full' },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
