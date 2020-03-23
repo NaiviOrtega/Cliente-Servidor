@@ -185,20 +185,31 @@ router.get('/users', async(req, res) => {
 });
 
 router.post('/users/new', function(req, res){
-    var data = req.body;
+    var dataU = req.body;
 
     var nuevoUsuario = new Usuario({
-        name: data.name,
-        email: data.email,
-        password: data.password
+        name: dataU.name,
+        email: dataU.email,
+        password: dataU.password,
+        type: dataU.type
     });
     nuevoUsuario.save(function(error){
         if(error){
-            var mensaje = error.message;
-            res.status(500).json({mensajeError: mensaje, mensajeExito: ''});
+            if(error.errors.name){
+                res.status(500).json({mensajeErrorU: error.errors.name.message, mensajeExitoU: ''});
+            }
+            if(error.errors.email){
+                res.status(500).json({mensajeErrorU: error.errors.email.message, mensajeExitoU: ''});
+            }
+            if(error.errors.password){
+                res.status(500).json({mensajeErrorU: error.errors.password.message, mensajeExitoU: ''});
+            }
+            if(error.errors.type){
+                res.status(500).json({mensajeErrorU: error.errors.type.message, mensajeExitoU: ''});
+            }
         }
         else {
-            res.status(200).json({mensajeError:'', mensajeExito: 'Se agregó un nuevo usuario correctamente!'});
+            res.status(200).json({mensajeErrorU:'', mensajeExitoU: 'Se agregó un nuevo usuario!'});
         }
     });
 });

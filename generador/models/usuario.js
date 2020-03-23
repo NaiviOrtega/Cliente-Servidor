@@ -16,6 +16,11 @@ var modelSchema = mongoose.Schema({
         minlength: [6, "La contraseña es muy corta"],
         maxlength: [24, "La contraseña es muy larga"],
         required: [true, "La contraseña es obligatoria"]
+    },
+    type: {
+        type: String,
+        enum: ["Administrador", "Normal"],
+        required: [true, "El tipo de zombie es obligatorio"]
     }
 });
 
