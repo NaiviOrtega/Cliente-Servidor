@@ -1,1 +1,19 @@
-
+<div class="card mb-3 w-75">
+    <img src="https://2.bp.blogspot.com/-7XBSMkyAyt4/Wc4HoYQXwPI/AAAAAAAABB4/agQ9rNmWfOMX34SfuDIZqtARhiI_JaHFgCLcBGAs/s1600/ZOMBIE%2BINVASION%2BSECTION%2B2.jpg" style="height: 200px;" class="card-img-top" alt="...">
+    <div class="card-header text-white bg-info">Iniciar Sesión</div>
+    <div class="card-body">
+        <div id="alertaGuardarU"></div>
+        <form>
+            <div class="position-relative form-group">
+                <label for="nombre" class="">Nombre</label>
+                <input [(ngModel)]="nombreU" name="nombre" id="nombreU" placeholder="Nombre" type="text" class="form-control form-control-sm">
+            </div>
+            <div class="position-relative form-group">
+                <label for="email" class="">Contraseña</label>
+                <input [(ngModel)]="contraU" name="contra" id="contraU" placeholder="Contraseña" type="password" class="form-control form-control-sm">
+            </div>
+            <button onclick="location.href='#/register'" type="button" class="btn btn-link col-md-4">No tienes una cuenta? Registrate aqui</button>
+            <button type="button" class="btn btn-outline-dark col-md-4 offset-md-4" (click)="iniciarSesion()">Iniciar Sesión</button>
+        </form>
+    </div>
+</div>

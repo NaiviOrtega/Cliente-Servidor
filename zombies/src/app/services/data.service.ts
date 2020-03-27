@@ -16,9 +16,6 @@ export class DataService {
     private updateCerebros$ = new Subject<any>();
     cerebrosObservable = this.updateCerebros$.asObservable();
 
-    private updateUsuarios$ = new Subject<any>();
-    usuariossObservable = this.updateUsuarios$.asObservable();
-
     constructor(private _client: HttpClient) { }
 
     //ZOMBIES
@@ -37,7 +34,6 @@ export class DataService {
         };
 
         return this._client.post(apiUrl + 'zombies/new', nuevoZombie);
-
     }
 
     eliminarZombie(ID: string) {
@@ -52,7 +48,6 @@ export class DataService {
         };
 
         return this._client.put(apiUrl + 'zombies/edit/' + numero, editarZombie);
-
     }
 
     //CEREBROS
@@ -72,7 +67,6 @@ export class DataService {
         };
 
         return this._client.post(apiUrl + 'cerebros/new', nuevoCerebro);
-
     }
 
     eliminarCerebro(numero: string) {
@@ -88,26 +82,28 @@ export class DataService {
         };
 
         return this._client.put(apiUrl + 'cerebros/edit/' + numero, editarCerebro);
-
     }
 
     //USUARIOS
 
-    async obtenerUsuarios() {
-        let usuarios = await this._client.get<any>(apiUrl + 'users');
-        console.log(usuarios);
-        return this.updateUsuarios$.next(usuarios);
-    }
-
-    agregarUsuario(nombre: string, correo: string, contraseña: string) {
+    agregarUsuario(nombre: string, correo: string, contra: string, imagen: string) {
         let nuevoUsuario = {
             name: nombre,
             email: correo,
-            password: contraseña
+            password: contra,
+            picture: imagen
         };
 
         return this._client.post(apiUrl + 'users/new', nuevoUsuario);
+    }
 
+    iniciarSesion(nombre: string, contra: string){
+        let ingresar = {
+            name: nombre,
+            password: contra
+        };
+
+        return this._client.post(apiUrl + 'users/login', ingresar);
     }
 
 }

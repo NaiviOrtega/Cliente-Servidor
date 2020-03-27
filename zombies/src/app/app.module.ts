@@ -20,7 +20,6 @@ import { SettingsService } from './services/settings.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ZombiesModalsComponent } from './modals/zombies/zombiesmodals.component';
 import { CerebrosmodalsComponent } from './modals/cerebrosmodals/cerebrosmodals.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -38,8 +37,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     ZombiesComponent,
     CerebrosComponent,
     ZombiesModalsComponent,
-    CerebrosmodalsComponent,
-    UserProfileComponent
+    CerebrosmodalsComponent
   ],
   imports: [
     BrowserModule,

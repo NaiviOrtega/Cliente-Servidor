@@ -1,5 +1,6 @@
 import { Injectable, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { AppComponent } from '../app.component';
 
 @Injectable({
     providedIn: 'root'
