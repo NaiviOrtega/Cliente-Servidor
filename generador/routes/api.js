@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+var bcrypt = require('bcrypt');
+var BCRYPT_SALT_ROUNDS = 10;
+var inicioS = false;
+
 var Zombie = require('../models/zombie');
 var Cerebro = require('../models/cerebro');
 var Usuario = require('../models/usuario');
@@ -173,43 +177,54 @@ router.put('/cerebros/edit/:id', async function(req, res){
 
 //USUARIOS
 
-router.get('/users', async(req, res) => {
-    Usuario.find().exec((error, usuarios) => {
-        if(!error){
-            res.status(200).json(usuarios);
-        }
-        else {
-            res.status(500).json(error);
-        }
-    });
-});
-
 router.post('/users/new', function(req, res){
     var dataU = req.body;
 
-    var nuevoUsuario = new Usuario({
-        name: dataU.name,
-        email: dataU.email,
-        password: dataU.password,
-        type: dataU.type
+    bcrypt.hash(dataU.password, BCRYPT_SALT_ROUNDS, function(error, hashedPassword){
+        var nuevoUsuario = new Usuario({
+            name: dataU.name,
+            email: dataU.email,
+            password: hashedPassword,
+            picture: dataU.picture
+        });
+        
+        nuevoUsuario.save(function(error){
+            if(error){
+                if(error.errors.name){
+                    res.status(500).json({mensajeErrorU: error.errors.name.message, mensajeExitoU: ''});
+                }
+                if(error.errors.email){
+                    res.status(500).json({mensajeErrorU: error.errors.email.message, mensajeExitoU: ''});
+                }
+                if(error.errors.password){
+                    res.status(500).json({mensajeErrorU: error.errors.password.message, mensajeExitoU: ''});
+                }
+                if(error.errors.picture){
+                    res.status(500).json({mensajeErrorU: error.errors.picture.message, mensajeExitoU: ''});
+                }
+            }
+            else {
+                res.status(200).json({mensajeErrorU:'', mensajeExitoU: 'Se agregó un nuevo usuario!'});
+            }
+        });
     });
-    nuevoUsuario.save(function(error){
-        if(error){
-            if(error.errors.name){
-                res.status(500).json({mensajeErrorU: error.errors.name.message, mensajeExitoU: ''});
-            }
-            if(error.errors.email){
-                res.status(500).json({mensajeErrorU: error.errors.email.message, mensajeExitoU: ''});
-            }
-            if(error.errors.password){
-                res.status(500).json({mensajeErrorU: error.errors.password.message, mensajeExitoU: ''});
-            }
-            if(error.errors.type){
-                res.status(500).json({mensajeErrorU: error.errors.type.message, mensajeExitoU: ''});
-            }
-        }
-        else {
-            res.status(200).json({mensajeErrorU:'', mensajeExitoU: 'Se agregó un nuevo usuario!'});
+});
+
+router.post('/users/login', function(req, res){
+    var dataU = req.body;
+
+    Usuario.findOne({name: dataU.name}, function(error, usuario){
+        if(usuario == null){
+            res.status(500).json({mensajeErrorU: 'Usuario no encontrado'});
+        } else {
+            bcrypt.compare(dataU.password, usuario.password, function(error, resultado) {
+                if(resultado){
+                  inicioS = true;
+                  res.status(200).json({mensajeExitoU: 'Inicio de Sesión Correcto'});
+                } else {
+                  res.status(500).json({mensajeErrorU: "Contraseña incorrecta"});
+                }
+            });
         }
     });
 });

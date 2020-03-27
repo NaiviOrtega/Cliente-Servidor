@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 var modelSchema = mongoose.Schema({
     name: {
         type: String,
-        minlength: [12, "La descripcion es muy corta"],
-        maxlength: [40, "El nombre es muy larga"],
+        minlength: [5, "La nombre es muy corta"],
+        maxlength: [12, "El nombre es muy larga"],
         required: [true, "El nombre es obligatorio"]
     },
     email: {
@@ -14,13 +14,14 @@ var modelSchema = mongoose.Schema({
     password: {
         type: String,
         minlength: [6, "La contraseña es muy corta"],
-        maxlength: [24, "La contraseña es muy larga"],
+        maxlength: [100, "La contraseña es muy larga"],
         required: [true, "La contraseña es obligatoria"]
     },
-    type: {
+    picture: {
         type: String,
-        enum: ["Administrador", "Normal"],
-        required: [true, "El tipo de zombie es obligatorio"]
+        minlength: [6, "El nombre de la imagen es muy corto"],
+        maxlength: [100, "El nombre de la imagen es muy largo"],
+        required: [true, "El nombre de la imagen es obligatorio"]
     }
 });
 
