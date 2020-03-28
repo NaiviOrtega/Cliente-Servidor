@@ -9,52 +9,66 @@ import { Router, NavigationEnd } from '@angular/router';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    constructor( private ruta: Router ) {
-        this.ruta.events.subscribe( event => {
-            if (event instanceof NavigationEnd) {
-              if (event.url == '/login') {
-                this.elemento = true;
-              } else if (event.url == '/register') {
-                this.elemento = true;
-              } else {
-                this.elemento = false;
-              }
-            }
-          });
-
-        if (localStorage.getItem('inicio') != null) {
-            if (localStorage.getItem('inicio') === 'true') {
-              AppComponent.inicio = true;
+  constructor( private ruta: Router ) {
+      this.ruta.events.subscribe( event => {
+          if (event instanceof NavigationEnd) {
+            if (event.url == '/login') {
+              this.elemento = true;
+            } else if (event.url == '/register') {
+              this.elemento = true;
             } else {
-              AppComponent.inicio = false;
+              this.elemento = false;
             }
           }
+        });
 
-        if (localStorage.getItem('nombre') != null) {
-            AppComponent.nombre = localStorage.getItem('nombre');
+      if (localStorage.getItem('inicio') != null) {
+          if (localStorage.getItem('inicio') === 'true') {
+            AppComponent.inicio = true;
+          } else {
+            AppComponent.inicio = false;
+          }
         }
 
+      if (localStorage.getItem('nombre') != null) {
+          AppComponent.nombre = localStorage.getItem('nombre');
+      }
+
+      if (localStorage.getItem('imagen') != null) {
+        AppComponent.imagen = localStorage.getItem('imagen');
     }
 
-    static get inicio(): boolean {
-        return AppComponent._inicio;
-    }
+  }
 
-    static set inicio(value: boolean) {
-        AppComponent._inicio = value;
-    }
+  static get inicio(): boolean {
+      return AppComponent._inicio;
+  }
 
-    private static _inicio: boolean = false;
+  static set inicio(value: boolean) {
+      AppComponent._inicio = value;
+  }
 
-    static get nombre(): string {
-        return AppComponent._nombre;
-    }
+  private static _inicio: boolean = false;
 
-    static set nombre(value: string) {
-        AppComponent._nombre = value;
-    }
+  static get nombre(): string {
+      return AppComponent._nombre;
+  }
 
-    private static _nombre: string = '';
+  static set nombre(value: string) {
+      AppComponent._nombre = value;
+  }
+
+  private static _nombre: string = '';
+
+  static get imagen(): string {
+      return AppComponent._imagen;
+  }
+
+  static set imagen(value: string) {
+      AppComponent._imagen = value;
+  }
+
+  private static _imagen: string = '';
 
     public elemento = false;
 

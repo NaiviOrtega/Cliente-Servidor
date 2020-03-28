@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
   correoU: string;
   contraU: string;
   imagenU: string;
+  static imagen: string;
 
   constructor( private dataService: DataService, private ruta: Router ) { }
 
@@ -24,6 +25,7 @@ export class RegisterComponent implements OnInit {
   }
 
   guardarUsuario() {
+    RegisterComponent.imagen = JSON.stringify(this.imagenU);
     let alU = document.getElementById('alertaGuardarU');
     alU.innerHTML = '';
     console.log(this.nombreU, this.correoU, this.contraU, this.imagenU);
@@ -32,6 +34,7 @@ export class RegisterComponent implements OnInit {
       console.log(resultado);
       localStorage.setItem('nombre', this.nombreU);
       AppComponent.nombre = this.nombreU;
+      AppComponent.imagen = this.imagenU;
       this.nombreU = "";
       this.correoU = "";
       this.contraU = "";

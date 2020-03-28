@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ export class LoginComponent implements OnInit {
 
   nombreU: string;
   contraU: string;
+  imagen: string;
 
   constructor( private dataService: DataService, private ruta: Router ) { }
 
@@ -19,6 +21,7 @@ export class LoginComponent implements OnInit {
   }
 
   iniciarSesion(){
+    this.imagen = RegisterComponent.imagen;
     let alU = document.getElementById('alertaGuardarU');
     alU.innerHTML = '';
     console.log(this.nombreU, this.contraU);
@@ -27,6 +30,8 @@ export class LoginComponent implements OnInit {
       console.log(resultado);
       localStorage.setItem('nombre', this.nombreU);
       AppComponent.nombre = this.nombreU;
+      AppComponent.imagen = this.imagen;
+      console.log(this.imagen);
       this.nombreU = "";
       this.contraU = "";
       localStorage.setItem('inicio', 'true');

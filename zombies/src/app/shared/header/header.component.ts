@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
   ngAfterContentChecked(): void {
     if (AppComponent.inicio === true) {
       this.nombre = AppComponent.nombre;
+      this.imagen = AppComponent.imagen;
     }
   }
 
