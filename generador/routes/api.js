@@ -136,9 +136,9 @@ router.delete('/cerebros/delete/:id', async function(req, res){
         var cerebro = await Cerebro.findById(req.params.id);
         cerebro.remove();
 
-        res.status(200).json({mensajeError:'', mensajeExito: 'Se eliminó un cerebro correctamente!'});
+        res.status(200).json({mensajeErrorC:'', mensajeExitoC: 'Se eliminó un cerebro correctamente!'});
     } catch (error) {
-        res.status(500).json({mensajeError: e});
+        res.status(500).json({mensajeErrorC: e});
     }
 });
 
